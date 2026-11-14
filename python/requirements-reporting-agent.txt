@@ -1,5 +1,5 @@
 google-cloud-pubsub==2.43.0
-google-cloud-secret-manager==2.31.0
-pydantic==2.14.2
+google-cloud-secret-manager==2.32.0
+pydantic==2.14.3
 requests==2.34.2
 prometheus-client==0.26.0
