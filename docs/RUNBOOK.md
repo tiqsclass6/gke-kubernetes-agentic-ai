@@ -1471,10 +1471,10 @@ terraform -chdir=terraform apply agentic.tfplan
 
 Both appeared in the 18 Oct 2026 rebuild, in the same first apply. Neither leaves anything half-built.
 
-| **Error** | **Why** | **Fix** |
-| --- | --- | --- |
+| **Error**                                                                                 | **Why**                                                                                                                                                                               | **Fix**                                                                                                                                                          |
+|-------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | **`google_firestore_database.agent_state[0]`: `Root object was present, but now absent`** | Google created the `(default)` database, but the provider's read-back came too soon and found nothing, so it is missing from state. A plain re-apply then fails with `already exists` | Confirm it exists, import it, then re-apply (see below). The plan then shows only `deletion_policy` `ABANDON` → `DELETE` for it, which is normal after an import |
-| **`Error 429: ... Service accounts created per minute per project`** | The first apply creates about a dozen service accounts at once | Wait 60 seconds (the error's `retryDelay`) and re-apply. The failed account was never created |
+| **`Error 429: ... Service accounts created per minute per project`**                      | The first apply creates about a dozen service accounts at once                                                                                                                        | Wait 60 seconds (the error's `retryDelay`) and re-apply. The failed account was never created                                                                    |
 
 ```bash
 gcloud firestore databases list --project=class-6-5-tiqs --format="table(name,locationId,createTime)"
