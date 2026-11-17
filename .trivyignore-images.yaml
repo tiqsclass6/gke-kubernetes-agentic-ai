@@ -6,28 +6,25 @@
 # so the exception has to be re-reviewed rather than silently kept.
 
 # kubectl in the MCP Server image (docker/mcp_docker.txt, KUBECTL_VERSION).
-# Upstream kubectl v1.36.5 and v1.37.1 are built with Go 1.26.8 and
-# golang.org/x/net v0.56/v0.57; the fixes land in Go 1.26.9 and x/net 0.60.0.
-# No upstream kubectl release includes them yet. Remove these entries once a
-# rebuilt kubectl patch release is pinned in docker/mcp_docker.txt.
+# Upstream kubectl v1.36.6 is built with Go 1.26.10, which fixes the Go stdlib
+# CVEs excepted for v1.36.5 (those entries were removed on 2026-11-16). It still
+# vendors golang.org/x/net v0.56.0 and golang.org/x/text v0.39.0; v1.37.2 has
+# the same problem (x/net v0.57.0, x/text v0.40.0). No upstream kubectl release
+# includes the fixed modules yet. Remove these entries once a kubectl patch
+# built with x/net >= 0.62.0 and x/text >= 0.41.0 is pinned.
 vulnerabilities:
-  - id: CVE-2026-78667
+  - id: CVE-2026-78661
     paths:
       - "usr/local/bin/kubectl"
-    expired_at: 2026-11-15
-    statement: Upstream kubectl Go stdlib; awaiting a kubectl patch built with Go 1.26.9.
-  - id: CVE-2026-56851
-    paths:
-      - "usr/local/bin/kubectl"
-    expired_at: 2026-11-15
-    statement: Upstream kubectl vendors golang.org/x/text v0.39.0 (fixed in 0.41.0); no kubectl release includes it as of 2026-10-17.
+    expired_at: 2026-12-15
+    statement: Upstream kubectl vendors golang.org/x/net v0.56.0 (fixed in 0.62.0); no kubectl release includes it as of 2026-11-16.
   - id: CVE-2026-78669
     paths:
       - "usr/local/bin/kubectl"
-    expired_at: 2026-11-15
-    statement: Upstream kubectl Go stdlib and golang.org/x/net; awaiting a rebuilt kubectl patch.
-  - id: CVE-2026-97031
+    expired_at: 2026-12-15
+    statement: Upstream kubectl vendors golang.org/x/net v0.56.0 (fixed in 0.60.0); no kubectl release includes it as of 2026-11-16.
+  - id: CVE-2026-56851
     paths:
       - "usr/local/bin/kubectl"
-    expired_at: 2026-11-15
-    statement: Upstream kubectl Go stdlib; awaiting a kubectl patch built with Go 1.26.9.
+    expired_at: 2026-12-15
+    statement: Upstream kubectl vendors golang.org/x/text v0.39.0 (fixed in 0.41.0); no kubectl release includes it as of 2026-11-16.

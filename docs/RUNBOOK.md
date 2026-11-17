@@ -1863,7 +1863,7 @@ Deployment uses immutable digests from `image-lock.json`, not mutable image tags
 
 The image scan fails on any fixable HIGH or CRITICAL finding. Exceptions live in `.trivyignore-images.yaml` (not the repository-scan `.trivyignore.yaml`). Each entry is scoped to a file path and has an `expired_at` date. The scan records suppressed findings as `ignored` in `release-evidence/trivy/*.json`.
 
-Current exception: four CVEs in the upstream `kubectl` binary of the `mcp-server` image (three in the Go standard library and `x/net`, plus `CVE-2026-56851` in `golang.org/x/text`, added 17 Oct 2026), expiring `2026-11-15`. If `13` fails with `Trivy rejected .../mcp-server@...` after that date, check for a newer kubectl 1.36 patch release. Pin it in `docker/mcp_docker.txt` (`KUBECTL_VERSION`) and remove the entries. If none is out yet, review and extend the dates deliberately.
+Current exception: three CVEs in the upstream `kubectl` v1.36.6 binary of the `mcp-server` image (`CVE-2026-78661` and `CVE-2026-78669` in `golang.org/x/net`, `CVE-2026-56851` in `golang.org/x/text`), reviewed 16 Nov 2026 and expiring `2026-12-15`. v1.36.6 fixed the two Go standard-library CVEs that v1.36.5 needed, so those entries were removed. If `13` fails with `Trivy rejected .../mcp-server@...` after that date, check for a newer kubectl 1.36 patch release. Pin it in `docker/mcp_docker.txt` (`KUBECTL_VERSION`) and remove the entries it fixes. If none is out yet, review and extend the dates deliberately.
 
 Do not run `13` locally. It needs `cosign` (`Required command not found: cosign` otherwise), and keyless signing on a workstation signs with your own Google identity and publishes that email to the public Rekor log. Run it through the workflow:
 
